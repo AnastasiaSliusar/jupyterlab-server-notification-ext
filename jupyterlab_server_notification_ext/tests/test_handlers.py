@@ -3,11 +3,11 @@ import json
 
 async def test_get_example(jp_fetch):
     # When
-    response = await jp_fetch("jupyterlab-server-notification-ext", "get-example")
+    response = await jp_fetch("jupyterlab-server-notification-ext", "get-notification")
 
     # Then
     assert response.code == 200
     payload = json.loads(response.body)
     assert payload == {
-        "data": "This is /jupyterlab-server-notification-ext/get-example endpoint!"
+        "data": "This is /jupyterlab-server-notification-ext/get-notification endpoint!"
     }

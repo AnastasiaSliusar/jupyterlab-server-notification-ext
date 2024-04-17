@@ -9,7 +9,7 @@ import {
 import { MainAreaWidget } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
 import { reactIcon } from '@jupyterlab/ui-components';
-import { CounterWidget } from './widget';
+import { ButtonWidget } from './widget';
 
 /**
  * The command IDs used by the react-widget plugin.
@@ -28,7 +28,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     console.log('JupyterLab extension jupyterlab-server-notification-ext is activated!');
 
-    requestAPI<any>('get-example')
+    requestAPI<any>('get-notification')
       .then(data => {
         console.log(data);
       })
@@ -52,13 +52,13 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     const command = CommandIDs.create;
     commands.addCommand(command, {
-      caption: 'Create a new React Widget',
+      caption: 'Create a React Button Notification Widget',
       label: 'React Widget',
       icon: args => (args['isPalette'] ? undefined : reactIcon),
       execute: () => {
-        const content = new CounterWidget();
-        const widget = new MainAreaWidget<CounterWidget>({ content });
-        widget.title.label = 'React Widget';
+        const content = new ButtonWidget();
+        const widget = new MainAreaWidget<ButtonWidget>({ content });
+        widget.title.label = 'React Button Notification Widget';
         widget.title.icon = reactIcon;
         app.shell.add(widget, 'main');
       }

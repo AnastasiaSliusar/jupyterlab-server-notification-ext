@@ -10,22 +10,15 @@ class RouteHandler(APIHandler):
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
+        data = {"status": "success", "message": { "text" : "Notification succes", "Everything is alright"}, "delay": 3000}
         self.finish(json.dumps({
-            "data": "This is /jupyterlab-server-notification-ext/get-example endpoint!"
+            "data": "This is /jupyterlab-server-notification-ext/get-notification endpoint!"
         }))
-
-    @tornado.web.authenticated
-    def post(self):
-        # input_data is a dictionary with a key "name"
-        input_data = self.get_json_body()
-        data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
-        self.finish(json.dumps(data))
-
 
 def setup_handlers(web_app):
     host_pattern = ".*$"
 
     base_url = web_app.settings["base_url"]
-    route_pattern = url_path_join(base_url, "jupyterlab-server-notification-ext", "get-example")
+    route_pattern = url_path_join(base_url, "jupyterlab-server-notification-ext", "get-notification")
     handlers = [(route_pattern, RouteHandler)]
     web_app.add_handlers(host_pattern, handlers)

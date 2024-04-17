@@ -53,7 +53,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     const command = CommandIDs.create;
     commands.addCommand(command, {
       caption: 'Create a React Button Notification Widget',
-      label: 'React Widget',
+      label: 'React Button Notification Widget',
       icon: args => (args['isPalette'] ? undefined : reactIcon),
       execute: () => {
         const content = new ButtonWidget();

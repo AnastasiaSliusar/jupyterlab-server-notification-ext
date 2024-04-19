@@ -19,6 +19,14 @@ class RouteHandler(APIHandler):
         input_data = self.get_json_body()
         data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
         self.finish(json.dumps(data))
+    
+    @tornado.web.authenticated
+    def get(self):
+        # Emit an event.
+        self.event_logger.emit(
+            schema_id="http://event.mockextension.jupyter.org/message",
+            data={"event_message": "Test!"},
+        )
 
 
 def setup_handlers(web_app):

@@ -1,3 +1,5 @@
+import pathlib
+
 try:
     from ._version import __version__
 except ImportError:
@@ -31,6 +33,8 @@ def _load_jupyter_server_extension(server_app):
     server_app: jupyterlab.labapp.LabApp
         JupyterLab application instance
     """
+    schema_file = pathlib.Path(__file__).parent / "schema.yaml"
+    server_app.event_logger.register_event_schema(schema_file)
     setup_handlers(server_app.web_app)
     name = "jupyterlab_server_notification_ext"
     server_app.log.info(f"Registered {name} server extension")

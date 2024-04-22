@@ -1,8 +1,9 @@
 import { ReactWidget } from '@jupyterlab/ui-components';
 
 import React from 'react';
-import { requestAPI } from './handler';
-import { Notification } from '@jupyterlab/apputils';
+//import { Notification } from '@jupyterlab/apputils';
+import { Event } from '@jupyterlab/services';
+import { StatisticService } from './statistic';
 
 export interface INotification {
   /**
@@ -36,10 +37,12 @@ export interface INotification {
  *
  * @returns The React component
  */
-const ButtonComponent = (): JSX.Element => {
+const ButtonComponent = (props: {statisticService: StatisticService}): JSX.Element => {
   //const [data, setData] = useState({});
+  const statisticService = props.statisticService;
 
-  const showNotification = ({
+
+ /* const showNotification = ({
     status,
     message,
     delay
@@ -50,12 +53,24 @@ const ButtonComponent = (): JSX.Element => {
       ],
       autoClose: delay
     });
-  };
+  };*/
 
   const handleClick = (): void => {
-    requestAPI<any>('get-notification')
+    let analyticData = {
+      "type":"jupterlab_analytics",
+      "action": "button_click",
+      "name": "button_react"
+    }
+    statisticService.data("event", "mock", {
+      "body": JSON.stringify(analyticData),
+      "method": 'POST'
+    });
+
+   /* eventManager.emit({data: {"event_message": "Test from frontend!"},  schema_id:"http://event.mockextension.jupyter.org/message", version:"1"});
+    makeEventRequestAPI<any>('event', eventManager.serverSettings)
       .then(data => {
-        showNotification(data);
+        console.log('makeEventRequestAPI');
+        //showNotification(data);
         console.log(data);
       })
       .catch(reason => {
@@ -63,6 +78,8 @@ const ButtonComponent = (): JSX.Element => {
           `The jupyterlab_server_notification_ext server extension appears to be missing.\n${reason}`
         );
       });
+      */
+      
   };
 
   return (
@@ -77,15 +94,17 @@ const ButtonComponent = (): JSX.Element => {
  * A Button Lumino Widget that wraps a ButtonComponent.
  */
 export class ButtonWidget extends ReactWidget {
+  statisticService: StatisticService;
   /**
    * Constructs a new ButtonWidget.
    */
-  constructor() {
+  constructor(eventManager: Event.IManager, statisticService: StatisticService) {
     super();
     this.addClass('jp-react-widget');
+    this.statisticService = statisticService
   }
 
   render(): JSX.Element {
-    return <ButtonComponent />;
+    return <ButtonComponent statisticService={this.statisticService}/>;
   }
 }

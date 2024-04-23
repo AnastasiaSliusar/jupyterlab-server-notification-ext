@@ -7,8 +7,6 @@ type: object
 properties:
   event_message:
     title: Event Message
-    categories:
-      - unrestricted
     description: |
       Mock event message to read.
 required:

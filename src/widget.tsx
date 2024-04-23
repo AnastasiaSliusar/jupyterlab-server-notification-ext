@@ -1,53 +1,75 @@
 import { ReactWidget } from '@jupyterlab/ui-components';
 import React from 'react';
-import { IEventHandler } from './eventHanlder';
+import { IEventHandler } from './eventHandler';
 
 /**
  * Button component which is used to show notification and sending requests to backend.
  *
  * @returns The React component
  */
-const ButtonComponent = (props: {eventHanlder: IEventHandler}): JSX.Element => {
-  const eventHanlder = props.eventHanlder;
+const FormComponent = (props: {
+  eventHandler: IEventHandler;
+}): JSX.Element => {
 
-  const handleClick = (): void => {
-    const analyticData = {
-      "type":"jupterlab_analytics",
-      "action": "button_click",
-      "name": "button_react"
-    }
+ const eventHandler = props.eventHandler;
 
-    eventHanlder.data("event", "jupyterlab-server-notification-ext", {
-      "body": JSON.stringify(analyticData),
-      "method": 'POST'
-    });
-      
+ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  const formData = Object.fromEntries((form as any).entries());
+	console.dir(formData);
+
+  const analyticData = {
+    type: 'jupterlab_analytics',
+    action: 'form_submit',
+    name: 'form_react',
+    data: formData
   };
+
+  eventHandler.data('event', 'jupyterlab-server-notification-ext', {
+    body: JSON.stringify(analyticData),
+    method: 'POST'
+  });
+};
+
 
   return (
     <div>
-      <p>You will see notifications after clicking</p>
-      <button onClick={handleClick}>Click me</button>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Required:
+          <input type="text" placeholder="" name="required" />
+        </label>
+        <label>
+          Optional:
+          <input type="text" placeholder="" name="optional" />
+        </label>
+        <label>
+          With validation:
+          <input type="text" placeholder="" name="with_validation" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 };
 
 /**
- * A Button Lumino Widget that wraps a ButtonComponent.
+ * A Button Lumino Widget that wraps a FormComponent.
  */
-export class ButtonWidget extends ReactWidget {
-  eventHanlder: IEventHandler;
+export class FormWidget extends ReactWidget {
+  eventHandler: IEventHandler;
   /**
-   * Constructs a new ButtonWidget.
+   * Constructs a new FormWidget.
    */
-  constructor(eventHanlder: IEventHandler) {
+  constructor(eventHandler: IEventHandler) {
     super();
     //this.addClass('jp-react-widget');
-    this.eventHanlder = eventHanlder;
-    this.eventHanlder.activateNotification(true);
+    this.eventHandler = eventHandler;
+    this.eventHandler.activateNotification(true);
   }
 
   render(): JSX.Element {
-    return <ButtonComponent eventHanlder={this.eventHanlder}/>;
+    return <FormComponent eventHandler={this.eventHandler} />;
   }
 }

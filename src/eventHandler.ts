@@ -61,7 +61,7 @@ export interface IEventHandler {
   showNotification: (obj: INotification) => void
 }
 
-export class EventHanlder implements IEventHandler {
+export class EventHandler implements IEventHandler {
   private eventManager: Event.IManager;
   activeNotification: boolean;
 

@@ -6,8 +6,8 @@ import {
 import { MainAreaWidget } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
 import { reactIcon } from '@jupyterlab/ui-components';
-import { ButtonWidget } from './widget';
-import { EventHanlder } from './eventHanlder';
+import { FormWidget } from './widget';
+import { EventHandler } from './eventHandler';
 
 /**
  * The command IDs used by the react-widget plugin.
@@ -29,10 +29,10 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
 
     const command = CommandIDs.create;
-    const eventHanlder = new EventHanlder(app.serviceManager.events);
+    const eventHandler = new EventHandler(app.serviceManager.events);
 
     app.serviceManager.events.stream.connect((_, emission) => {
-      if (emission.event_type === 'analytic' && eventHanlder.activeNotification) {
+      if (emission.event_type === 'analytic' && eventHandler.activeNotification) {
         const status = emission.status as 'error' | 'success';
 
         const message = {
@@ -46,8 +46,8 @@ const extension: JupyterFrontEndPlugin<void> = {
           label: emission.label as string,
           delay: 3000
         };
-        
-        eventHanlder.showNotification(notification);
+
+        eventHandler.showNotification(notification);
       }
     });
 
@@ -56,8 +56,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       label: 'React Button Notification Widget',
       icon: args => (args['isPalette'] ? undefined : reactIcon),
       execute: () => {
-        const content = new ButtonWidget(eventHanlder);
-        const widget = new MainAreaWidget<ButtonWidget>({ content });
+        const content = new FormWidget(eventHandler);
+        const widget = new MainAreaWidget<FormWidget>({ content });
         widget.title.label = 'React Button Notification Widget';
         widget.title.icon = reactIcon;
         app.shell.add(widget, 'main');

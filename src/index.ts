@@ -34,6 +34,9 @@ const extension: JupyterFrontEndPlugin<void> = {
    
     app.serviceManager.events.stream.connect((_, emission) => {
       console.log('signal emission', emission);
+      if (emission.event_type === 'analytic') {
+
+      }
     });
 
     commands.addCommand(command, {

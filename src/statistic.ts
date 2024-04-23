@@ -16,7 +16,6 @@ export class StatisticService {
   }
 
   data(endPoint: string, apiNamespace: string, options?: OptionRequest) {
-    console.log('sendData');
     this.#makeEventRequestAPI<any>(
       endPoint,
       options,
@@ -45,7 +44,7 @@ export class StatisticService {
     let response: Response;
     try {
       console.log(`requestUrl-->${requestUrl}`);
-      console.log(`init-->${init}`);
+      console.dir(init);
       response = await ServerConnection.makeRequest(requestUrl, init, settings);
     } catch (error) {
       throw new ServerConnection.NetworkError(error as any);

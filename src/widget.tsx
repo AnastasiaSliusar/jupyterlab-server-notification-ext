@@ -17,7 +17,6 @@ const FormComponent = (props: {
   event.preventDefault();
   const form = new FormData(event.currentTarget);
   const formData = Object.fromEntries((form as any).entries());
-	console.dir(formData);
 
   const analyticData = {
     type: 'jupterlab_analytics',

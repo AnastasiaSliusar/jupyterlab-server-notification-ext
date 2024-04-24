@@ -3,3 +3,37 @@
 
     https://jupyterlab.readthedocs.io/en/stable/developer/css.html
 */
+.jp-react-form-widget {
+  color: var(--jp-ui-font-color1);
+  background: var(--jp-layout-color1);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jp-react-form-widget form {
+  width: 100%;
+}
+
+.jp-react-form-widget form{
+    text-align: center;
+  }
+
+.jp-react-form-widget form :not(input[type='submit']) {
+  text-align: left;
+}
+.jp-react-form-widget label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.jp-react-form-widget input {
+  margin-left: 10px;
+}
+
+.jp-react-form-widget input[type='submit'] {
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}

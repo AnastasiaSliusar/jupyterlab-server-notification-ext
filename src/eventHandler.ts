@@ -11,7 +11,7 @@ interface INotification {
   /**
    * The status of backend.
    */
-  status: 'error' | 'success';
+  status: "error" | "success" | "warning" | "info";
 
   /**
    * Message information for a notification.
@@ -134,7 +134,7 @@ export class EventHandler implements IEventHandler {
     let actions  = callback ? [
         { label, callback: callback}
       ]: undefined;
-    
+
     Notification[status](message.title, {
       actions,
       autoClose: delay

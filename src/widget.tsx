@@ -38,7 +38,7 @@ const FormComponent = (props: {
       <form onSubmit={handleSubmit}>
         <label>
           Required:
-          <input type="text" placeholder="" name="required" />
+          <input type="text" placeholder="" name="required" required/>
         </label>
         <label>
           Optional:
@@ -64,9 +64,10 @@ export class FormWidget extends ReactWidget {
    */
   constructor(eventHandler: IEventHandler) {
     super();
-    //this.addClass('jp-react-widget');
+    this.addClass('jp-react-form-widget');
     this.eventHandler = eventHandler;
     this.eventHandler.activateNotification(true);
+
   }
 
   render(): JSX.Element {
